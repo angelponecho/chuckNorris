@@ -88,6 +88,7 @@ window.onload = function() {
         var newDiv = document.createElement("div");
         var newContent = document.createTextNode(nameValue+ " es capaz de zurrarle a Chuck Norris.");
         newDiv.classList.add("js-video-text");
+        newDiv.classList.add("p-5");
         newDiv.appendChild(newContent); //añade texto al div creado.
         videoContainer.prepend(newDiv);
       };

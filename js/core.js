@@ -87,6 +87,7 @@ window.onload = function() {
         // y añade contenido
         var newDiv = document.createElement("div");
         var newContent = document.createTextNode(nameValue+ " es capaz de zurrarle a Chuck Norris.");
+        newContent.classList.add("p-5");
         newDiv.classList.add("js-video-text");
         newDiv.appendChild(newContent); //añade texto al div creado.
         videoContainer.prepend(newDiv);

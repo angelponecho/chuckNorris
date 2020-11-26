@@ -9,7 +9,15 @@
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+
+
+      <!-- cdnjs -->
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.11/jquery.lazy.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.11/plugins/jquery.lazy.av.min.js"></script>
+
+      <script src="js/lazyLoad.js" ></script>
         <script src="js/core.js" ></script>
+
 
     </head>
 
@@ -28,18 +36,28 @@
                 <div class="active initial"></div>
 
                 <div class="video hide embed-responsive embed-responsive-16by9">
-                  <video class="embed-responsive-item">
-                    <source src="video/chuck1.mp4" type="video/mp4">
+                  <video class="embed-responsive-item lazy "
+
+                         data-poster="https://ottball.com/content/images/2020/06/image-3.png">
+
+                    <data-src src="video/chuck1.mp4" type="video/mp4"></data-src>
+
                   </video>
                 </div>
                 <div class="video hide embed-responsive embed-responsive-16by9 position-relative">
-                  <video class="embed-responsive-item">
-                    <source src="video/noise2.mp4" type="video/mp4">
+                  <video class="embed-responsive-item lazy"
+
+                         data-poster="https://ottball.com/content/images/2020/06/image-5.png">
+
+                    <data-src src="video/noise2.mp4" type="video/mp4"></data-src>
                   </video>
                 </div>
                 <div class="video hide embed-responsive embed-responsive-16by9">
-                  <video class="embed-responsive-item">
-                    <source src="video/chuck2.mp4" type="video/mp4">
+                  <video class="embed-responsive-item lazy"
+
+                         data-poster="https://ottball.com/content/images/2020/06/image-6.png">
+
+                    <data-src src="video/chuck2.mp4" type="video/mp4"></data-src>
                   </video>
                 </div>
 

@@ -5,7 +5,7 @@ window.onload = function() {
   var $inputName = document.getElementById("input-name");
   var $searchSection = document.getElementById("cover");
   var hasNextVideo =true;
-  var namesArr= ['Pozi', 'Risitas'];
+  var namesArr= ['pozi', 'risitas'];
 
  //precargo mi primer video
   LoadMiFirstVideo();
@@ -36,10 +36,17 @@ window.onload = function() {
 
 
   function playMyClosingMenu() {
-    playMyVideo($videoWraper.getElementsByClassName("closing")[0], loop=true);
-    setTimeout (function () {
-      $searchSection.style.display = "block";
-    }, 1000);
+    console.log('cierro')
+    //playMyVideo($videoWraper.getElementsByClassName("closing")[0], loop=true);
+    var lastVideoContainer = $videoWraper.getElementsByClassName("active")[0];
+    var videoContainer = $videoWraper.getElementsByClassName("closing")[0];
+
+    lastVideoContainer.classList.remove("active");
+    lastVideoContainer.style.display = "none";
+
+    videoContainer.style.display = "block";
+    videoContainer.classList.add("active");
+
   };
 
 
@@ -140,9 +147,10 @@ window.onload = function() {
 
         var nameIsOnNamesArr = namesArr.includes(nameValue);
 
+        console.log('ameIsOnNamesArr',nameIsOnNamesArr);
         if (nameIsOnNamesArr) {
-          nextVideo.getElementsByTagName("source")[0].src = "videos/" + nameValue + ".mp4"
-          nextVideo.getElementsByTagName("source")[1].src = "videos/" + nameValue + ".webm"
+          nextVideo.getElementsByTagName("source")[0].src = "video/" + nameValue + ".mp4"
+          nextVideo.getElementsByTagName("source")[1].src = "video/" + nameValue + ".webm"
         }
         nextVideoTag = nextVideo.getElementsByTagName("video")[0];
         nextVideoTag.preload = "auto";

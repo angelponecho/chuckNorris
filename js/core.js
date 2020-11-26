@@ -4,10 +4,11 @@ window.onload = function() {
   var $btnPlayVideo = document.getElementById("btn-play-video");
   var $inputName = document.getElementById("input-name");
   var $searchSection = document.getElementById("cover");
+  var hasNextVideo =true;
   var namesArr= ['Pozi', 'Risitas'];
 
-
-
+ //precargo mi primer video
+  LoadMiFirstVideo();
 
 
 
@@ -35,7 +36,7 @@ window.onload = function() {
 
 
   function playMyClosingMenu() {
-    playVideo($videoWraper.getElementsByClassName("closing")[0], loop=true);
+    playMyVideo($videoWraper.getElementsByClassName("closing")[0], loop=true);
     setTimeout (function () {
       $searchSection.style.display = "block";
     }, 1000);
@@ -69,6 +70,15 @@ window.onload = function() {
 
   }
 
+  function LoadMiFirstVideo( loop=false) {
+    var firstVideoContainer = $videoWraper.getElementsByClassName("first-video")[0];
+    var video = firstVideoContainer.getElementsByTagName("video")[0];
+    video.preload = "auto";
+    video.load();
+    video.loop = loop;
+
+  }
+
   function playMyVideo(videoContainer,personalizedVideo, nameValue, loop=false) {
     var lastVideoContainer = $videoWraper.getElementsByClassName("active")[0];
     lastVideoContainer.classList.remove("active");
@@ -79,11 +89,6 @@ window.onload = function() {
 
     var video = videoContainer.getElementsByTagName("video")[0];
     if(personalizedVideo){
-      var nameIsOnNamesArr = namesArr.includes(nameValue);
-      if(nameIsOnNamesArr){
-        videoContainer.getElementsByTagName("source")[0].src="videos/"+nameValue+".mp4"
-        videoContainer.getElementsByTagName("source")[1].src="videos/"+nameValue+".webm"
-      }else{
         // crea un nuevo div
         // y añade contenido
         var newDiv = document.createElement("div");
@@ -92,10 +97,9 @@ window.onload = function() {
         newDiv.classList.add("p-5");
         newDiv.appendChild(newContent); //añade texto al div creado.
         videoContainer.prepend(newDiv);
-      };
+
     }
-    video.preload = "auto";
-    video.load();
+
     video.play();
     video.loop = loop;
 
@@ -131,12 +135,22 @@ window.onload = function() {
     video.addEventListener("timeupdate", function() {
       var currentTime = (this.currentTime / this.duration) * 100;
 
-      if (hasNextVideo && currentTime > 70) {
-        nextVideo = videos[index + 1];
-        nextVideoTag = nextVideo.getElementsByTagName("video")[0];
-        nextVideoTag.preload = "auto";
+      if (hasNextVideo && currentTime > 50) {
+        var nextVideo = videos[index + 1];
+
+        var nameIsOnNamesArr = namesArr.includes(nameValue);
+
+        if (nameIsOnNamesArr) {
+          nextVideo.getElementsByTagName("source")[0].src = "videos/" + nameValue + ".mp4"
+          nextVideo.getElementsByTagName("source")[1].src = "videos/" + nameValue + ".webm"
+
+        } else {
+          nextVideoTag = nextVideo.getElementsByTagName("video")[0];
+          nextVideoTag.preload = "auto";
+          nextVideoTag.load();
+        }
       }
-    })
+    });
 
     video.onended = function() {
       if (hasNextVideo) {

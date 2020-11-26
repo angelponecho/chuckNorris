@@ -143,12 +143,11 @@ window.onload = function() {
         if (nameIsOnNamesArr) {
           nextVideo.getElementsByTagName("source")[0].src = "videos/" + nameValue + ".mp4"
           nextVideo.getElementsByTagName("source")[1].src = "videos/" + nameValue + ".webm"
-
-        } else {
-          nextVideoTag = nextVideo.getElementsByTagName("video")[0];
-          nextVideoTag.preload = "auto";
-          nextVideoTag.load();
         }
+        nextVideoTag = nextVideo.getElementsByTagName("video")[0];
+        nextVideoTag.preload = "auto";
+        nextVideoTag.load();
+
       }
     });
 

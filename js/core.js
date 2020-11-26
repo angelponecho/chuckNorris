@@ -82,6 +82,7 @@ window.onload = function() {
       var nameIsOnNamesArr = namesArr.includes(nameValue);
       if(nameIsOnNamesArr){
         videoContainer.getElementsByTagName("source")[0].src="videos/"+nameValue+".mp4"
+        videoContainer.getElementsByTagName("source")[1].src="videos/"+nameValue+".webm"
       }else{
         // crea un nuevo div
         // y añade contenido

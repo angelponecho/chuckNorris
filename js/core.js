@@ -7,10 +7,10 @@ window.onload = function() {
   var hasNextVideo =true;
   var namesArr= ['pozi', 'risitas'];
 
+  //SECCION BUSCADOR
+
  //precargo mi primer video
   LoadMiFirstVideo();
-
-
 
   // Execute a function when the user releases a key on the keyboard
   $inputName.addEventListener("keyup", function(event) {
@@ -18,7 +18,6 @@ window.onload = function() {
     // Number 13 is the "Enter" key on the keyboard
     if (event.keyCode === 13) {
 
-      console.log('hago enter')
       // Cancel the default action, if needed
       event.preventDefault();
       // Trigger the button element with a click
@@ -27,13 +26,111 @@ window.onload = function() {
     }
   });
 
-
   $btnPlayVideo.onclick = function() {
     var nameValue = $inputName.value;
+    //texto en minusculas y sin espacios
+    nameValue= nameValue.toLowerCase().trim();
+    console.log ('nombre es',nameValue);
     var videos =  $videoWraper.getElementsByClassName("video")
     showMyVideos(0,videos,nameValue);
   }
 
+  //SECCION VIDEO
+
+  function showMyVideos(index, videos,nameValue) {
+
+    var personalizedVideo =false;
+
+    //compruebo que hay mas videos
+    if (index < (videos.length - 1)) {
+      hasNextVideo = true;
+    } else {
+      hasNextVideo = false;
+    }
+
+    //oculto el buscador
+    $searchSection.style.display = "none";
+    //pongo el video
+    $video.style.display = "block";
+
+    //añado audio personalizalo al primer video
+    if(index===0){
+      personalizedAudio(nameValue);
+    }
+
+
+    //le doy play al video
+    var video = playMyVideo(videos[index],personalizedVideo, nameValue);
+
+    //escucho que esta pasando en el vidoe
+    video.addEventListener("timeupdate", function() {
+      var currentTime = (this.currentTime / this.duration) * 100;
+
+      if (hasNextVideo && currentTime > 50) {
+        var nextVideo = videos[index + 1];
+        var nextVideoTag = nextVideo.getElementsByTagName("video")[0];
+        var isPersonalizedVideo = nextVideo.classList.contains("personalized-video")
+
+        //está el nomre en la lista?
+        var nameIsOnNamesArr = namesArr.includes(nameValue);
+
+        if(isPersonalizedVideo){
+
+          //esta en la lista creamos video personalizado
+          if (nameIsOnNamesArr) {
+            nextVideo.getElementsByTagName("source")[0].src = "video/" + nameValue + ".mp4"
+            nextVideo.getElementsByTagName("source")[1].src = "video/" + nameValue + ".webm"
+          }else{
+            //NO esta en la listaponecmos texto
+            // crea un nuevo div// y añade contenido
+            var newDiv = document.createElement("div");
+            var newContent = document.createTextNode(nameValue+ " es capaz de zurrarle a Chuck Norris.");
+            newDiv.classList.add("js-video-text");
+            newDiv.classList.add("p-5");
+            newDiv.appendChild(newContent); //añade texto al div creado.
+            //añade el div del texto sobre el video (prepend en jquery)
+            nextVideo.insertBefore(newDiv, nextVideo.firstChild);
+
+          }
+
+        }
+
+        console.log('ameIsOnNamesArr',nameIsOnNamesArr);
+
+
+        nextVideoTag.preload = "auto";
+        nextVideoTag.load();
+      }
+    });
+
+    video.onended = function() {
+      if (hasNextVideo) {
+        showMyVideos(index+1, videos,nameValue);
+      } else {
+        playMyClosingMenu();
+      }
+    }
+  }
+
+  function playMyVideo(videoContainer,personalizedVideo, nameValue) {
+
+    //elimino el ultimo vidoe activo
+    var lastVideoContainer = $videoWraper.getElementsByClassName("active")[0];
+
+    lastVideoContainer.classList.remove("active");
+    lastVideoContainer.style.display = "none";
+
+    //activo el video
+    videoContainer.style.display = "block";
+    videoContainer.classList.add("active");
+
+    var video = videoContainer.getElementsByTagName("video")[0];
+
+    video.play();
+    video.loop = false;
+
+    return video;
+  }
 
   function playMyClosingMenu() {
     console.log('cierro')
@@ -49,8 +146,6 @@ window.onload = function() {
 
   };
 
-
-
   function set_up_speech() {
     return new Promise(function(resolve, reject) {
       var synth = window.speechSynthesis;
@@ -58,7 +153,8 @@ window.onload = function() {
       resolve(voices)
     })
   }
-  set_up_speech().then(function(voices) {});
+
+  set_up_speech().then(function(voices){});
 
 
   function personalizedAudio(nameValue){
@@ -66,7 +162,6 @@ window.onload = function() {
     var message = new SpeechSynthesisUtterance('Tenemos noticias importantes sobre '+ nameValue);
     var voices = speechSynthesis.getVoices();
 
-    console.log('las voce son',voices)
     //españolas son la 0 y la 15 14 y 61 portugues
     message.voice = voices[15];
     message.rate = 1;
@@ -77,96 +172,18 @@ window.onload = function() {
 
   }
 
-  function LoadMiFirstVideo( loop=false) {
+  function LoadMiFirstVideo() {
     var firstVideoContainer = $videoWraper.getElementsByClassName("first-video")[0];
     var video = firstVideoContainer.getElementsByTagName("video")[0];
     video.preload = "auto";
     video.load();
-    video.loop = loop;
+    video.loop = false;
 
   }
 
-  function playMyVideo(videoContainer,personalizedVideo, nameValue, loop=false) {
-    var lastVideoContainer = $videoWraper.getElementsByClassName("active")[0];
-    lastVideoContainer.classList.remove("active");
-    lastVideoContainer.style.display = "none";
-
-    videoContainer.style.display = "block";
-    videoContainer.classList.add("active");
-
-    var video = videoContainer.getElementsByTagName("video")[0];
-    if(personalizedVideo){
-        // crea un nuevo div
-        // y añade contenido
-        var newDiv = document.createElement("div");
-        var newContent = document.createTextNode(nameValue+ " es capaz de zurrarle a Chuck Norris.");
-        newDiv.classList.add("js-video-text");
-        newDiv.classList.add("p-5");
-        newDiv.appendChild(newContent); //añade texto al div creado.
-        videoContainer.prepend(newDiv);
-
-    }
-
-    video.play();
-    video.loop = loop;
-
-    return video;
-  }
-
-  function showMyVideos(index, videos,nameValue) {
-
-    var personalizedVideo =false;
-
-    if (index < (videos.length - 1)) {
-      hasNextVideo = true;
-    } else {
-      hasNextVideo = false;
-    }
-
-    $searchSection.style.display = "none";
-    $video.style.display = "block";
-
-    if(index===0){
-      personalizedAudio(nameValue);
-    }
 
 
-    if(index===1){
-      personalizedVideo=true;
-    }else{
-      personalizedVideo=false
-    }
 
-    var video = playMyVideo(videos[index],personalizedVideo, nameValue);
-
-    video.addEventListener("timeupdate", function() {
-      var currentTime = (this.currentTime / this.duration) * 100;
-
-      if (hasNextVideo && currentTime > 50) {
-        var nextVideo = videos[index + 1];
-
-        var nameIsOnNamesArr = namesArr.includes(nameValue);
-
-        console.log('ameIsOnNamesArr',nameIsOnNamesArr);
-        if (nameIsOnNamesArr) {
-          nextVideo.getElementsByTagName("source")[0].src = "video/" + nameValue + ".mp4"
-          nextVideo.getElementsByTagName("source")[1].src = "video/" + nameValue + ".webm"
-        }
-        nextVideoTag = nextVideo.getElementsByTagName("video")[0];
-        nextVideoTag.preload = "auto";
-        nextVideoTag.load();
-
-      }
-    });
-
-    video.onended = function() {
-      if (hasNextVideo) {
-        showMyVideos(index+1, videos,nameValue);
-      } else {
-        playMyClosingMenu();
-      }
-    }
-  }
 
 
 }

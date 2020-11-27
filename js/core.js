@@ -84,7 +84,7 @@ window.onload = function() {
             //NO esta en la listaponecmos texto
             // crea un nuevo div// y añade contenido
             var newDiv = document.createElement("div");
-            var newContent = document.createTextNode(nameValue+ " es capaz de zurrarle a Chuck Norris.");
+            var newContent = document.createTextNode(nameValue+ " es gay.");
             newDiv.classList.add("js-video-text");
             newDiv.classList.add("p-5");
             newDiv.appendChild(newContent); //añade texto al div creado.
@@ -95,8 +95,7 @@ window.onload = function() {
 
         }
 
-        console.log('ameIsOnNamesArr',nameIsOnNamesArr);
-
+        console.log('ameIsOnNamesArr',nameIsOnNamesArr)
 
         nextVideoTag.preload = "auto";
         nextVideoTag.load();

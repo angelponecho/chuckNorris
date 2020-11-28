@@ -32,6 +32,10 @@ window.onload = function() {
     nameValue= nameValue.toLowerCase().trim();
     console.log ('nombre es',nameValue);
     var videos =  $videoWraper.getElementsByClassName("video")
+    //oculto el buscador
+    $searchSection.style.display = "none";
+    //muestro el video
+    $video.classList.remove("hide");
     showMyVideos(0,videos,nameValue);
   }
 
@@ -48,10 +52,6 @@ window.onload = function() {
       hasNextVideo = false;
     }
 
-    //oculto el buscador
-    $searchSection.style.display = "none";
-    //pongo el video
-    $video.style.display = "block";
 
     //añado audio personalizalo al primer video
     if(index===0){
@@ -63,7 +63,9 @@ window.onload = function() {
     var video = playMyVideo(videos[index],personalizedVideo, nameValue);
 
     //escucho que esta pasando en el vidoe
-    video.addEventListener("timeupdate", function() {
+    video.addEventListener("timeupdate", preloadVideo);
+
+    function preloadVideo() {
       var currentTime = (this.currentTime / this.duration) * 100;
 
       if (hasNextVideo && currentTime > 50) {
@@ -99,8 +101,10 @@ window.onload = function() {
 
         nextVideoTag.preload = "auto";
         nextVideoTag.load();
+        this.removeEventListener("timeupdate",preloadVideo);
+
       }
-    });
+    };
 
     video.onended = function() {
       if (hasNextVideo) {

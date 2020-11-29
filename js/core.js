@@ -137,7 +137,10 @@ window.onload = function() {
     videoContainer.classList.add("active");
 
     var video = videoContainer.getElementsByTagName("video")[0];
+    if(!isVolume){
+      video.volume=0;
 
+    }
     video.play();
     video.loop = false;
 

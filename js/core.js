@@ -1,11 +1,19 @@
 window.onload = function() {
+
   var $video = document.getElementById("video");
   var $videoWraper = document.getElementsByClassName("video-wraper")[0];
-  var $btnPlayVideo = document.getElementById("btn-play-video");
   var $inputName = document.getElementById("input-name");
   var $searchSection = document.getElementById("cover");
   var hasNextVideo =true;
   var namesArr= ['pozi', 'risitas'];
+
+  var $btnPlayVideo = document.getElementById("btn-play-video");
+
+  //this on jquery
+  var $btnPlayPause = $('.btn-play-pause');
+  var isVideoOnPlay =true;
+  var $btnVolume = $('.btn-volume');
+  var isVolume =true;
 
   //SECCION BUSCADOR
 
@@ -69,6 +77,7 @@ window.onload = function() {
       var currentTime = (this.currentTime / this.duration) * 100;
 
       if (hasNextVideo && currentTime > 50) {
+
         var nextVideo = videos[index + 1];
         var nextVideoTag = nextVideo.getElementsByTagName("video")[0];
         var isPersonalizedVideo = nextVideo.classList.contains("personalized-video")
@@ -132,6 +141,7 @@ window.onload = function() {
     video.play();
     video.loop = false;
 
+
     return video;
   }
 
@@ -185,8 +195,67 @@ window.onload = function() {
   }
 
 
+  //CONTROLES DE VIDEO
+
+  $btnPlayPause.on('click', function (evt) {
+
+    evt.preventDefault();
+    var $iconPlay=$(this).find('.oi-media-play');
+    var $iconPause=$(this).find('.oi-media-pause');
+
+    //paro el video
+    $('.video').each(function(){
+      var $this= $(this);
+     if($this.hasClass('active')){
+       console.log('encuentro un video activo')
+
+       if(isVideoOnPlay){
+         isVideoOnPlay=false;
+         $this.find('video').trigger('pause');
+
+       }else{
+         isVideoOnPlay=true;
+         $this.find('video').trigger('play');
+       }
 
 
+     }
+    });
+
+    $iconPlay.toggleClass('hide');
+    $iconPause.toggleClass('hide');
+
+  });
+
+  $btnVolume.on('click', function (evt) {
+
+    evt.preventDefault();
+    var $iconVolumeOn=$(this).find('.oi-volume-high');
+    var $iconVolumeOff=$(this).find('.oi-volume-off');
+
+    //paro el video
+    $('.video').each(function(){
+      var $this= $(this);
+      if($this.hasClass('active')){
+        console.log('encuentro un video activo')
+
+        if(isVolume){
+          isVolume=false;
+          $this.find('video').prop("volume", 0);
+
+        }else{
+          isVolume=true;
+          $this.find('video').prop("volume", 1);
+        }
+
+
+      }
+    });
+
+    $iconVolumeOn.toggleClass('hide');
+    $iconVolumeOff.toggleClass('hide');
+
+  });
 
 
 }

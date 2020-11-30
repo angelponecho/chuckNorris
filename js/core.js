@@ -192,11 +192,13 @@ window.onload = function() {
   }
 
   function LoadMiFirstVideo() {
-    var firstVideoContainer = $videoWraper.getElementsByClassName("first-video")[0];
-    var video = firstVideoContainer.getElementsByTagName("video")[0];
-    video.preload = "auto";
-    video.load();
-    video.loop = false;
+    for (var i = 0; i < 3; i++) {
+      var firstVideoContainer = $videoWraper.getElementsByClassName("video")[i];
+      var video = firstVideoContainer.getElementsByTagName("video")[0];
+      video.preload = "auto";
+      video.load();
+      video.loop = false;
+    }
 
   }
 

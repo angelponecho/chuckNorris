@@ -95,7 +95,8 @@ window.onload = function() {
             //NO esta en la listaponecmos texto
             // crea un nuevo div// y añade contenido
             var newDiv = document.createElement("div");
-            var newContent = document.createTextNode(nameValue+ "es fan de la Pantoja y Paquirrín.");
+            var formatName = nameValue.substring(0, 1).toUpperCase() + nameValue.substring(1);
+            var newContent = document.createTextNode(formatName+ " es fan de la Pantoja y Paquirr&iacute;n.");
             newDiv.classList.add("js-video-text");
             newDiv.classList.add("p-5");
             newDiv.appendChild(newContent); //añade texto al div creado.

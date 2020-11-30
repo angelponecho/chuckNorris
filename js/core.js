@@ -91,6 +91,8 @@ window.onload = function() {
           if (nameIsOnNamesArr) {
             nextVideo.getElementsByTagName("source")[0].src = "video/" + nameValue + ".mp4"
             nextVideo.getElementsByTagName("source")[1].src = "video/" + nameValue + ".webm"
+            nextVideoTag.preload = "auto";
+            nextVideoTag.load();
           }else{
             //NO esta en la listaponecmos texto
             // crea un nuevo div// y añade contenido
@@ -107,10 +109,10 @@ window.onload = function() {
 
         }
 
-        console.log('ameIsOnNamesArr',nameIsOnNamesArr)
 
-        nextVideoTag.preload = "auto";
-        nextVideoTag.load();
+
+        //nextVideoTag.preload = "auto";
+        //nextVideoTag.load();
         this.removeEventListener("timeupdate",preloadVideo);
 
       }

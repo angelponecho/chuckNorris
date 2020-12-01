@@ -146,7 +146,7 @@ window.onload = function() {
 
     }
     video.play();
-    video.removeAttribute("mute");
+    video.removeAttribute('muted');
 
     video.loop = false;
 
